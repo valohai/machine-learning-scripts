@@ -68,6 +68,18 @@ def predict_wsgi(environ, start_response):
     # Report results.
     cls = 'cat' if prediction < 0.5 else 'dog'
     result = {'class': cls, 'value': float(prediction)}
+
+    # Get details about the deployed model if possible.
+    metadata_path = 'valohai-metadata.json'
+    if os.path.isfile(metadata_path):
+        with open(metadata_path) as f:
+            try:
+                deployment_metadata = json.load(f)
+                result['deployment'] = deployment_metadata
+            except json.JSONDecodeError:
+                # Could not read the deployment metadata, ignore it
+                pass
+
     response = create_response(result, 200)
     return response(environ, start_response)
 
