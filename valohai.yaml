@@ -136,6 +136,8 @@
     files:
       - name: model
         path: model.h5
+      - name: valohai-metadata.json
+        path: valohai-metadata.json
 
 - endpoint:
     name: predict-nyyssi
